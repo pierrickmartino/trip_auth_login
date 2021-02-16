@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'auth_dialog.dart';
+import 'authentication.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -47,18 +50,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  Future<dynamic> getUserInfo() async {
+    await getUser();
+    setState(() {});
+    print(uid);
   }
+
+  @override
+  void initState() {
+    getUserInfo();
+    super.initState();
+  }
+
+  bool _isProcessing = false;
 
   @override
   Widget build(BuildContext context) {
@@ -94,21 +98,73 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            OutlinedButton(
+              onPressed: userEmail == null
+                  ? () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AuthDialog(),
+                      );
+                    }
+                  : null,
+              child: userEmail == null
+                  ? const Text('Sign in')
+                  : Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 15,
+                          backgroundImage:
+                              imageUrl != null ? NetworkImage(imageUrl) : null,
+                          child: imageUrl == null
+                              ? const Icon(
+                                  Icons.account_circle,
+                                  size: 30,
+                                )
+                              : Container(),
+                        ),
+                        const SizedBox(width: 5),
+                        Text(name ?? userEmail),
+                        const SizedBox(width: 10),
+                        OutlinedButton(
+                          onPressed: _isProcessing
+                              ? null
+                              : () async {
+                                  setState(() {
+                                    _isProcessing = true;
+                                  });
+                                  await signOut().then((result) {
+                                    print(result);
+                                    Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute<dynamic>(
+                                        fullscreenDialog: true,
+                                        builder: (context) => MyHomePage(),
+                                      ),
+                                    );
+                                  }).catchError((error) {
+                                    print('Sign Out Error: $error');
+                                  });
+                                  setState(() {
+                                    _isProcessing = false;
+                                  });
+                                },
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              top: 8,
+                              bottom: 8,
+                            ),
+                            child: _isProcessing
+                                ? const CircularProgressIndicator()
+                                : const Text(
+                                    'Sign out',
+                                  ),
+                          ),
+                        )
+                      ],
+                    ),
+            )
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
