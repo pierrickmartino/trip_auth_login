@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'authentication.dart';
+import 'main.dart';
 
 class GoogleButton extends StatefulWidget {
   const GoogleButton({Key key}) : super(key: key);
@@ -31,12 +32,11 @@ class _GoogleButtonState extends State<GoogleButton> {
             print(result);
             if (result != null) {
               Navigator.of(context).pop();
-              // Navigator.of(context).pushReplacement(
-              //   MaterialPageRoute(
-              //     fullscreenDialog: true,
-              //     builder: (context) => MyHomePage(),
-              //   ),
-              // );
+              Navigator.of(context).pushReplacement(MaterialPageRoute<dynamic>(
+                fullscreenDialog: true,
+                builder: (context) =>
+                    const MyHomePage(title: 'Flutter Demo Home Page'),
+              ));
             }
           }).catchError((error) {
             print('Registration Error: $error');

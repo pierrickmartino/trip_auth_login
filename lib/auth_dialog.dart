@@ -252,8 +252,8 @@ class _AuthDialogState extends State<AuthDialog> {
                                     Future.delayed(
                                         const Duration(milliseconds: 500), () {
                                       Navigator.of(context).pop();
-                                      Navigator.of(context)
-                                          .pushReplacement(MaterialPageRoute(
+                                      Navigator.of(context).pushReplacement(
+                                          MaterialPageRoute<dynamic>(
                                         fullscreenDialog: true,
                                         builder: (context) => const MyHomePage(
                                             title: 'Flutter Demo Home Page'),
