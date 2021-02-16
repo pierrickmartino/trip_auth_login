@@ -103,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ? () {
                       showDialog(
                         context: context,
-                        builder: (context) => AuthDialog(),
+                        builder: (context) => const AuthDialog(),
                       );
                     }
                   : null,
@@ -134,10 +134,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                   });
                                   await signOut().then((result) {
                                     print(result);
+                                    //Navigator.of(context).pop();
                                     Navigator.of(context).pushReplacement(
                                       MaterialPageRoute<dynamic>(
                                         fullscreenDialog: true,
-                                        builder: (context) => MyHomePage(),
+                                        builder: (context) => const MyHomePage(
+                                            title: 'Flutter Demo Home Page'),
                                       ),
                                     );
                                   }).catchError((error) {

@@ -166,5 +166,5 @@ void signOutGoogle() async {
   userEmail = null;
   imageUrl = null;
 
-  print("User signed out of Google account");
+  print('User signed out of Google account');
 }
