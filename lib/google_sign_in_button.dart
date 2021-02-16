@@ -13,6 +13,7 @@ class GoogleButton extends StatefulWidget {
 }
 
 class _GoogleButtonState extends State<GoogleButton> {
+  // ignore: unused_field
   bool _isProcessing = false;
 
   @override
@@ -22,20 +23,20 @@ class _GoogleButtonState extends State<GoogleButton> {
         _isProcessing = true;
       });
       await signInWithGoogle().then((result) {
-        print(result);
+        //print(result);
         if (result != null) {
           Navigator.of(context).pop();
           Navigator.of(context).pushReplacement(MaterialPageRoute<dynamic>(
             fullscreenDialog: true,
-            builder: (context) =>
-                const MyHomePage(title: 'Flutter Demo Home Page'),
+            builder: (context) => const MyHomePage(title: 'Trip Auth Login'),
           ));
 
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('Successfully logged in with Google.'),
           ));
         }
-      }).catchError((error) {
+      }).catchError((dynamic error) {
+        // ignore: avoid_print
         print('Registration Error: $error');
       });
       setState(() {

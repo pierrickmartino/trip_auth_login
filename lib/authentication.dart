@@ -12,13 +12,13 @@ String name;
 String userEmail;
 String imageUrl;
 
-/// For checking if the user is already signed into the
-/// app using Google Sign In
-Future getUser() async {
+// To check if the user is already signed into the
+// app using Google Sign In
+Future<dynamic> getUser() async {
   await Firebase.initializeApp();
 
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  bool authSignedIn = prefs.getBool('auth') ?? false;
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  final bool authSignedIn = prefs.getBool('auth') ?? false;
 
   final User user = _auth.currentUser;
 
@@ -32,23 +32,28 @@ Future getUser() async {
   }
 }
 
-/// For authenticating user using Google Sign In
-/// with Firebase Authentication API.
-///
-/// Retrieves some general user related information
-/// from their Google account for ease of the login process
+// For authenticating user using Google Sign In
+// with Firebase Authentication API.
+
+// Retrieves some general user related information
+// from their Google account for ease of the login process
 Future<String> signInWithGoogle() async {
   await Firebase.initializeApp();
 
+  // Trigger the authentication flow
   final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+
+  // Obtain the auth details from the request
   final GoogleSignInAuthentication googleSignInAuthentication =
       await googleSignInAccount.authentication;
 
+  // Create a new credential
   final AuthCredential credential = GoogleAuthProvider.credential(
     accessToken: googleSignInAuthentication.accessToken,
     idToken: googleSignInAuthentication.idToken,
   );
 
+  // Once signed in, return the UserCredential
   final UserCredential userCredential =
       await _auth.signInWithCredential(credential);
   final User user = userCredential.user;
@@ -71,8 +76,8 @@ Future<String> signInWithGoogle() async {
     final User currentUser = _auth.currentUser;
     assert(user.uid == currentUser.uid);
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('auth', true);
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('auth', true);
 
     return 'Google sign in successful, User UID: ${user.uid}';
   }
@@ -132,8 +137,8 @@ Future<String> signInWithEmailPassword(String email, String password) async {
     final User currentUser = _auth.currentUser;
     assert(user.uid == currentUser.uid);
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('auth', true);
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('auth', true);
 
     return 'Successfully logged in, User UID: ${user.uid}';
   }
@@ -144,8 +149,8 @@ Future<String> signInWithEmailPassword(String email, String password) async {
 Future<String> signOut() async {
   await _auth.signOut();
 
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setBool('auth', false);
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setBool('auth', false);
 
   uid = null;
   userEmail = null;
@@ -154,17 +159,17 @@ Future<String> signOut() async {
 }
 
 /// For signing out of their Google account
-void signOutGoogle() async {
+Future<void> signOutGoogle() async {
   await googleSignIn.signOut();
   await _auth.signOut();
 
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setBool('auth', false);
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setBool('auth', false);
 
   uid = null;
   name = null;
   userEmail = null;
   imageUrl = null;
 
-  print('User signed out of Google account');
+  //print('User signed out of Google account');
 }

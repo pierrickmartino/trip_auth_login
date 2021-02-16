@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Trip Auth Login',
       theme: ThemeData(
         // This is the theme of your application.
 
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Trip Auth Login'),
     );
   }
 }
@@ -53,6 +53,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<dynamic> getUserInfo() async {
     await getUser();
     setState(() {});
+
+    // ignore: avoid_print
     print(uid);
   }
 
@@ -141,13 +143,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                 _isProcessing = true;
                               });
                               await signOut().then((result) {
-                                print(result);
+                                //print(result);
                                 //Navigator.of(context).pop();
                                 Navigator.of(context).pushReplacement(
                                   MaterialPageRoute<dynamic>(
                                     fullscreenDialog: true,
                                     builder: (context) => const MyHomePage(
-                                        title: 'Flutter Demo Home Page'),
+                                        title: 'Trip Auth Login'),
                                   ),
                                 );
 
@@ -155,7 +157,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                     .showSnackBar(const SnackBar(
                                   content: Text('Successfully signed out.'),
                                 ));
-                              }).catchError((error) {
+                              }).catchError((dynamic error) {
+                                // ignore: avoid_print
                                 print('Sign Out Error: $error');
                               });
                               setState(() {

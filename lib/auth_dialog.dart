@@ -30,7 +30,7 @@ class _AuthDialogState extends State<AuthDialog> {
 
     if (textControllerEmail.text != null) {
       if (value.isEmpty) {
-        return 'Email can\'t be empty';
+        return "Email can't be empty";
       } else if (!value.contains(RegExp(
           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+"))) {
         return 'Enter a correct email address';
@@ -45,7 +45,7 @@ class _AuthDialogState extends State<AuthDialog> {
 
     if (textControllerEmail.text != null) {
       if (value.isEmpty) {
-        return 'Password can\'t be empty';
+        return "Password can't be empty";
       } else if (value.length < 6) {
         return 'Length of password should be greater than 6';
       }
@@ -241,6 +241,7 @@ class _AuthDialogState extends State<AuthDialog> {
                                         textControllerPassword.text)
                                     .then((result) {
                                   if (result != null) {
+                                    // ignore: avoid_print
                                     print(result);
                                     setState(() {
                                       loginStatus =
@@ -258,13 +259,14 @@ class _AuthDialogState extends State<AuthDialog> {
                                       ));
 
                                       ScaffoldMessenger.of(context)
-                                          .showSnackBar(const SnackBar(
+                                          .showSnackBar(SnackBar(
                                         content: Text(
-                                            'Successfully logged in with mail.'),
+                                            'Successfully logged in with mail as {$textControllerEmail.text} .'),
                                       ));
                                     });
                                   }
-                                }).catchError((error) {
+                                }).catchError((dynamic error) {
+                                  // ignore: avoid_print
                                   print('Login Error: $error');
                                   setState(() {
                                     loginStatus =
@@ -342,9 +344,10 @@ class _AuthDialogState extends State<AuthDialog> {
                                           'You have registered successfully';
                                       loginStringColor = Colors.green;
                                     });
-                                    print(result);
+                                    //print(result);
                                   }
-                                }).catchError((error) {
+                                }).catchError((dynamic error) {
+                                  // ignore: avoid_print
                                   print('Registration Error: $error');
                                   setState(() {
                                     loginStatus =
@@ -427,7 +430,7 @@ class _AuthDialogState extends State<AuthDialog> {
                     color: Colors.blueGrey[200],
                   ),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 20),
                 const Center(child: GoogleButton()),
                 const SizedBox(height: 10),
               ],
