@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -23,12 +24,16 @@
   <meta name="apple-mobile-web-app-title" content="trip_auth_login">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
+  <meta name="google-signin-client_id"
+    content="970033187875-983r48a9femedu5smh054ljofbevc2bv.apps.googleusercontent.com">
+
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="icon" type="image/png" href="favicon.png" />
 
   <title>trip_auth_login</title>
   <link rel="manifest" href="manifest.json">
 </head>
+
 <body>
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
@@ -40,7 +45,6 @@
       });
     }
   </script>
-  <script src="main.dart.js" type="application/javascript"></script>
 
   <!-- The core Firebase JS SDK is always required and must be listed first -->
   <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js"></script>
@@ -60,5 +64,9 @@
     firebase.initializeApp(firebaseConfig);
   </script>
 
+  <script src="main.dart.js" type="application/javascript"></script>
+
+
 </body>
+
 </html>
