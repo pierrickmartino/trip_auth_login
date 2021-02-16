@@ -103,7 +103,7 @@ class _AuthDialogState extends State<AuthDialog> {
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       color: Theme.of(context).textTheme.subtitle2.color,
-                      fontSize: 18,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -164,7 +164,7 @@ class _AuthDialogState extends State<AuthDialog> {
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       color: Theme.of(context).textTheme.subtitle2.color,
-                      fontSize: 18,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                       // letterSpacing: 3,
                     ),
@@ -256,6 +256,12 @@ class _AuthDialogState extends State<AuthDialog> {
                                         builder: (context) => const MyHomePage(
                                             title: 'Flutter Demo Home Page'),
                                       ));
+
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
+                                        content: Text(
+                                            'Successfully logged in with mail.'),
+                                      ));
                                     });
                                   }
                                 }).catchError((error) {
@@ -300,7 +306,7 @@ class _AuthDialogState extends State<AuthDialog> {
                                   : const Text(
                                       'Log in',
                                       style: TextStyle(
-                                        fontSize: 14,
+                                        fontSize: 16,
                                         color: Colors.white,
                                       ),
                                     ),
@@ -381,7 +387,7 @@ class _AuthDialogState extends State<AuthDialog> {
                                   : const Text(
                                       'Sign up',
                                       style: TextStyle(
-                                        fontSize: 14,
+                                        fontSize: 16,
                                         color: Colors.white,
                                       ),
                                     ),

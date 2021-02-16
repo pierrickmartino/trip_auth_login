@@ -96,74 +96,87 @@ class _MyHomePageState extends State<MyHomePage> {
           // center the children vertically; the main axis here is the vertical
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            OutlinedButton(
-              onPressed: userEmail == null
-                  ? () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => const AuthDialog(),
-                      );
-                    }
-                  : null,
-              child: userEmail == null
-                  ? const Text('Sign in')
-                  : Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 15,
-                          backgroundImage:
-                              imageUrl != null ? NetworkImage(imageUrl) : null,
-                          child: imageUrl == null
-                              ? const Icon(
-                                  Icons.account_circle,
-                                  size: 30,
-                                )
-                              : Container(),
-                        ),
-                        const SizedBox(width: 5),
-                        Text(name ?? userEmail),
-                        const SizedBox(width: 10),
-                        OutlinedButton(
-                          onPressed: _isProcessing
-                              ? null
-                              : () async {
-                                  setState(() {
-                                    _isProcessing = true;
-                                  });
-                                  await signOut().then((result) {
-                                    print(result);
-                                    //Navigator.of(context).pop();
-                                    Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute<dynamic>(
-                                        fullscreenDialog: true,
-                                        builder: (context) => const MyHomePage(
-                                            title: 'Flutter Demo Home Page'),
-                                      ),
-                                    );
-                                  }).catchError((error) {
-                                    print('Sign Out Error: $error');
-                                  });
-                                  setState(() {
-                                    _isProcessing = false;
-                                  });
-                                },
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              top: 8,
-                              bottom: 8,
-                            ),
-                            child: _isProcessing
-                                ? const CircularProgressIndicator()
-                                : const Text(
-                                    'Sign out',
-                                  ),
-                          ),
-                        )
-                      ],
+            if (userEmail == null)
+              Padding(
+                padding: const EdgeInsets.only(top: 6),
+                child: OutlinedButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => const AuthDialog(),
+                    );
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.all(12),
+                    child: Text('Sign in'),
+                  ),
+                ),
+              )
+            else
+              Padding(
+                padding: const EdgeInsets.only(top: 6, right: 6),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    CircleAvatar(
+                      radius: 15,
+                      backgroundImage:
+                          imageUrl != null ? NetworkImage(imageUrl) : null,
+                      child: imageUrl == null
+                          ? const Icon(
+                              Icons.account_circle,
+                              size: 30,
+                            )
+                          : Container(),
                     ),
-            )
+                    const SizedBox(width: 5),
+                    Text(name ?? userEmail),
+                    const SizedBox(width: 10),
+                    OutlinedButton(
+                      onPressed: _isProcessing
+                          ? null
+                          : () async {
+                              setState(() {
+                                _isProcessing = true;
+                              });
+                              await signOut().then((result) {
+                                print(result);
+                                //Navigator.of(context).pop();
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute<dynamic>(
+                                    fullscreenDialog: true,
+                                    builder: (context) => const MyHomePage(
+                                        title: 'Flutter Demo Home Page'),
+                                  ),
+                                );
+
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                  content: Text('Successfully signed out.'),
+                                ));
+                              }).catchError((error) {
+                                print('Sign Out Error: $error');
+                              });
+                              setState(() {
+                                _isProcessing = false;
+                              });
+                            },
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          top: 8,
+                          bottom: 8,
+                        ),
+                        child: _isProcessing
+                            ? const CircularProgressIndicator()
+                            : const Text(
+                                'Sign out',
+                              ),
+                      ),
+                    )
+                  ],
+                ),
+              )
           ],
         ),
       ),

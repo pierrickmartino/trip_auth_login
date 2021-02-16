@@ -30,6 +30,10 @@ class _GoogleButtonState extends State<GoogleButton> {
             builder: (context) =>
                 const MyHomePage(title: 'Flutter Demo Home Page'),
           ));
+
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Successfully logged in with Google.'),
+          ));
         }
       }).catchError((error) {
         print('Registration Error: $error');
