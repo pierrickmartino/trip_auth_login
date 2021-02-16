@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/button_list.dart';
+import 'package:flutter_signin_button/button_view.dart';
 
 import 'authentication.dart';
 import 'main.dart';
@@ -15,66 +17,26 @@ class _GoogleButtonState extends State<GoogleButton> {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: ShapeDecoration(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-          side: const BorderSide(color: Colors.blueGrey, width: 3),
-        ),
-        color: Colors.white,
-      ),
-      child: OutlinedButton(
-        onPressed: () async {
-          setState(() {
-            _isProcessing = true;
-          });
-          await signInWithGoogle().then((result) {
-            print(result);
-            if (result != null) {
-              Navigator.of(context).pop();
-              Navigator.of(context).pushReplacement(MaterialPageRoute<dynamic>(
-                fullscreenDialog: true,
-                builder: (context) =>
-                    const MyHomePage(title: 'Flutter Demo Home Page'),
-              ));
-            }
-          }).catchError((error) {
-            print('Registration Error: $error');
-          });
-          setState(() {
-            _isProcessing = false;
-          });
-        },
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-          child: _isProcessing
-              ? const CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    Colors.blueGrey,
-                  ),
-                )
-              : Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const <Widget>[
-                    Image(
-                      image: AssetImage('assets/images/google_logo.png'),
-                      height: 30,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 20),
-                      child: Text(
-                        'Continue with Google',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.blueGrey,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-        ),
-      ),
-    );
+    return SignInButton(Buttons.GoogleDark, onPressed: () async {
+      setState(() {
+        _isProcessing = true;
+      });
+      await signInWithGoogle().then((result) {
+        print(result);
+        if (result != null) {
+          Navigator.of(context).pop();
+          Navigator.of(context).pushReplacement(MaterialPageRoute<dynamic>(
+            fullscreenDialog: true,
+            builder: (context) =>
+                const MyHomePage(title: 'Flutter Demo Home Page'),
+          ));
+        }
+      }).catchError((error) {
+        print('Registration Error: $error');
+      });
+      setState(() {
+        _isProcessing = false;
+      });
+    });
   }
 }

@@ -84,13 +84,11 @@ class _AuthDialogState extends State<AuthDialog> {
               children: [
                 Center(
                   child: Text(
-                    'EXPLORE',
+                    'SIGN IN',
                     style: TextStyle(
                       color: Theme.of(context).textTheme.headline1.color,
                       fontSize: 24,
-                      fontFamily: 'Montserrat',
                       fontWeight: FontWeight.bold,
-                      letterSpacing: 3,
                     ),
                   ),
                 ),
@@ -425,20 +423,7 @@ class _AuthDialogState extends State<AuthDialog> {
                 ),
                 const SizedBox(height: 30),
                 const Center(child: GoogleButton()),
-                const SizedBox(height: 30),
-                Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Text(
-                    'By proceeding, you agree to our Terms of Use and confirm you have read our Privacy Policy.',
-                    maxLines: 2,
-                    style: TextStyle(
-                      color: Theme.of(context).textTheme.subtitle2.color,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w300,
-                      // letterSpacing: 3,
-                    ),
-                  ),
-                ),
+                const SizedBox(height: 10),
               ],
             ),
           ),
